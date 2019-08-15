@@ -121,7 +121,7 @@ class Rename(Path):
         ext = os.path.splitext(file)[1].lower()
         if ext in self.skip_ext:
             return 'skip'
-        elif ext in self.del_ext:
+        elif ext in self.del_ext and sys.argv[1] == 'del':
             try:
                 os.remove(file)
             except PermissionError:
