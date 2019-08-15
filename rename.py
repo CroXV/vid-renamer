@@ -15,7 +15,7 @@ class Path:
     json_path = f'{script_dir}\\save\\path.json'
     json_name = f'{script_dir}\\save\\name.json'
 
-    skip_folder = ['Rekt (2012)', '- Animated Series']
+    skip_folder = []
     skip_ext = ['.db', '.ini']
     del_ext = ['.jpeg', '.jpg', '.txt', '.nfo', '.info', '.html', '.dat']
 
@@ -28,7 +28,7 @@ class Path:
                              '(Enter (Y/N))\n> ').lower()
                 if user == 'y':
                     return dir_path
-                if user == 'n':
+                elif user == 'n':
                     self.delete_stored_path()
                     return self.stored_path()
         except FileNotFoundError:
