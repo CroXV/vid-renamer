@@ -33,7 +33,7 @@ class Config:
             return data
 
     def save_value(self, value):
-        # update value
+        # update config value
         self.value = value
         # set value in loaded data and update json file with new data.
         self.data[self.key] = value
