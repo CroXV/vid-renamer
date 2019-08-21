@@ -29,8 +29,8 @@ class Config:
                 json.dump(self.data, file)
 
     def save_value(self, value):
+        # update instance and data values
         self.update_data()
-        # update instance value
         self.value = value
 
         # set value in loaded data and update json file with new data.
@@ -41,6 +41,7 @@ class Config:
 
     @property
     def load_value(self):
+        # update data value
         self.update_data()
         # try to get value from loaded data if key exists.
         try:
@@ -50,6 +51,7 @@ class Config:
 
     @load_value.deleter
     def load_value(self):
+        # update data value
         self.update_data()
         # remove key from dictionary and update json file.
         self.data.pop(self.key, None)
