@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from rename.app import ExitProgram
+from rename.app import ExitScript
 import json
 import logging
 # logging.basicConfig(filename='config.log', level=logging.DEBUG,
@@ -8,50 +8,50 @@ import logging
 
 
 class Config:
-    # check if exit conditions are met
-    value = ExitProgram()
+    # decorater to check if exit conditions are met.
+    value = ExitScript()
 
     def __init__(self, key):
         self.key = key
 
         self.file = 'config.json'
-        self.data = self.load_file()
+        self.data = {}
 
-    def load_file(self):
+    def update_data(self):
         # try to load json file and return it.
-        # if json file does not exist,
-        # make a new json file and return an empty dictionary.
+        # if json file is not found, make a new json file.
         try:
-            data = {}
             with open(self.file) as file:
-                data = json.load(file)
+                self.data = json.load(file)
         except FileNotFoundError:
             logging.info('Creating new json file...')
             with open(self.file, 'w') as file:
-                json.dump(data, file)
-        finally:
-            return data
+                json.dump(self.data, file)
 
     def save_value(self, value):
-        # update config value
+        self.update_data()
+        # update instance value
         self.value = value
+
         # set value in loaded data and update json file with new data.
         self.data[self.key] = value
         with open(self.file, 'w') as file:
-            json.dump(self.data, file)
-        return value
+            print(self.data)
+            json.dump(self.data, file, sort_keys=True, indent=4)
 
     @property
     def load_value(self):
+        self.update_data()
         # try to get value from loaded data if key exists.
         try:
             return self.data[self.key]
         except KeyError:
-            logging.warning('Key not found.')
+            logging.info('Key not found.')
 
     @load_value.deleter
     def load_value(self):
+        self.update_data()
         # remove key from dictionary and update json file.
         self.data.pop(self.key, None)
         with open(self.file, 'w') as file:
-            json.dump(self.data, file)
+            json.dump(self.data, file, sort_keys=True, indent=4)
