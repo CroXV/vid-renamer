@@ -38,6 +38,8 @@ class Config:
         with open(self.file, 'w') as file:
             json.dump(self.data, file, sort_keys=True, indent=4)
 
+        return self
+
     @property
     def load_value(self):
         # update data value
