@@ -25,7 +25,6 @@ def regex_name(name):
     elif series:
         return f'{parser.parse_series(series)}{ext}'
     elif movie:
-        movie = (movie.group(1), movie.group(2))
-        return f'{parser.parse_movie(name, movie)}{ext}'
+        return f'{parser.parse_movie(movie.group(1), movie.group(2))}{ext}'
 
 
