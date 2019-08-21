@@ -36,7 +36,6 @@ class Config:
         # set value in loaded data and update json file with new data.
         self.data[self.key] = value
         with open(self.file, 'w') as file:
-            print(self.data)
             json.dump(self.data, file, sort_keys=True, indent=4)
 
     @property
