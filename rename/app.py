@@ -1,7 +1,7 @@
 import sys
 
 
-class ExitProgram:
+class ExitScript:
     def __get__(self, instance, owner):
         return instance.__dict__[self.name]
 
