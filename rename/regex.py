@@ -13,7 +13,7 @@ def regex_name(name):
     movie = re.compile(
         r'(.*?)[-.(_\s]?(?!1[0-7]\d{2}|\d{4}p)([12]\d{3})').search(name)
 
-    # parse name and return them
+    # parse name and return
     if anime:
         return f'{parser.parse_episode(anime.group(2))}{ext}'
     elif digits:

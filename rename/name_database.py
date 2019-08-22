@@ -16,7 +16,7 @@ class NameDatabase:
         return self.database[key]
 
     def update(self):
-        # removes same key value and program set keys from instance database
+        # removes same key value and script set keys from instance database
         updated_database = {}
         for k, v in self.database.items():
             if k != v and k not in self.own_keys:
