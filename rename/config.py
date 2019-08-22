@@ -2,9 +2,6 @@
 
 from rename.app import ExitScript
 import json
-import logging
-# logging.basicConfig(filename='config.log', level=logging.DEBUG,
-#                     format='%(asctime)s: %(levelname)s: %(message)s')
 
 
 class Config:
@@ -24,7 +21,6 @@ class Config:
             with open(self.file) as file:
                 self.data = json.load(file)
         except FileNotFoundError:
-            logging.info('Creating new json file...')
             with open(self.file, 'w') as file:
                 json.dump(self.data, file)
 
@@ -48,7 +44,7 @@ class Config:
         try:
             return self.data[self.key]
         except KeyError:
-            logging.info('Key not found.')
+            pass
 
     @load_value.deleter
     def load_value(self):
