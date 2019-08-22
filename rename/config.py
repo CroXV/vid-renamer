@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 
-from rename.app import ExitScript
+from rename.app_descriptor import ExitScript
 import json
 
 
 class Config:
-    # decorater to check if exit conditions are met.
+    # descriptor to check if exit conditions are met.
     value = ExitScript()
 
     def __init__(self, key):
