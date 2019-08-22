@@ -8,49 +8,38 @@ class Config:
     # descriptor to check if exit conditions are met.
     value = ExitScript()
 
-    def __init__(self, key):
-        self.key = key
-
+    def __init__(self):
         self.file = 'config.json'
-        self.data = {}
+        self.data = self.load()
 
-    def update_data(self):
+    def load(self):
         # try to load json file and return it.
-        # if json file is not found, make a new json file.
+        data = {}
         try:
             with open(self.file) as file:
-                self.data = json.load(file)
+                data = json.load(file)
         except FileNotFoundError:
-            with open(self.file, 'w') as file:
-                json.dump(self.data, file)
+            pass
+        finally:
+            return data
 
-    def save_value(self, value):
-        # update instance and data values
-        self.update_data()
-        self.value = value
-
-        # set value in loaded data and update json file with new data.
-        self.data[self.key] = value
+    def update(self):
         with open(self.file, 'w') as file:
-            json.dump(self.data, file, sort_keys=True, indent=4)
+            json.dump(self.data, file)
 
-        return self
+    def set(self, key, value):
+        # update instance value
+        self.value = value
+        # set key to value in instance data
+        self.data[key] = value
 
-    @property
-    def load_value(self):
-        # update data value
-        self.update_data()
+    def get(self, key):
         # try to get value from loaded data if key exists.
         try:
-            return self.data[self.key]
+            return self.data[key]
         except KeyError:
             pass
 
-    @load_value.deleter
-    def load_value(self):
-        # update data value
-        self.update_data()
+    def del_value(self, key):
         # remove key from dictionary and update json file.
-        self.data.pop(self.key, None)
-        with open(self.file, 'w') as file:
-            json.dump(self.data, file, sort_keys=True, indent=4)
+        self.data.pop(key, None)

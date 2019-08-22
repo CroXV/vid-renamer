@@ -1,24 +1,30 @@
-from rename.config import Config
+from rename import db
+from rename import config
 from rename.regex import regex_name
 import os
 
 
 def walk_dir(directory):
-    # set config keys
-    name = Config('name')
-    current_file = Config('filename')
-    current_folder = Config('foldername').save_value(directory)
-
-    # loop all folders and files in dir while saving paths to config.json
+    # go through all files in folder and store them in database with a new name
     for foldername, subfolders, files in os.walk(directory):
-        current_folder.save_value(foldername)
+        # save current folder name to database
+        db.set('foldername', foldername)
 
         for file in files:
-            current_file.save_value(file)
-            new_name = regex_name(file)
-        del name.load_value  # delete name key from config.json
+            name = regex_name(file)
+            filename = os.path.join(foldername, file)
+            new_filename = os.path.join(foldername, name)
+
+            db.add(filename, new_filename)
+        config.del_value('name')
 
         for subfolder in subfolders:
-            # save subfolder name to config.json
-            foldername = os.path.join(foldername, subfolder)
-            current_folder.save_value(foldername)
+            name = regex_name(subfolder)
+            subfolder = os.path.join(foldername, subfolder)
+            new_subfolder = os.path.join(foldername, name)
+
+            db.set('foldername', subfolder)
+            db.add(subfolder, new_subfolder)
+
+    db.update()
+    config.update()

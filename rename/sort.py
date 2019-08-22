@@ -1,23 +1,25 @@
-from rename.config import Config
+from rename import db
+from rename import config
 import string
 import os
 import re
 
 
-def sort_name():
-    name = Config('name')
-    path = Config('foldername').load_value
+def get_name():
+    path = db.get('foldername')
 
-    # load name, make and save new name in config.json, if name doesn't exist.
-    show_name = name.load_value
-    if not show_name:
-        show_name = input(f'\nEnter a name for all files in {path}:\n> ')
-        name.save_value(show_name)
+    # load name, make new name if name is None
+    name = config.get('name')
+    if name is None:
+        name = input(
+            f'\nEnter show name for all episodes in: {path}\n> ')
+        config.set('name', name)
+
     # if name is not all capital, capitalize all first letters.
-    if not show_name.isupper():
-        show_name = string.capwords(show_name)
+    if not name.isupper():
+        name = string.capwords(name)
 
-    return show_name
+    return name
 
 
 def sort_movie_name(movie):
@@ -28,20 +30,6 @@ def sort_movie_name(movie):
 
 
 def sort_series(series):
-    if series.group(1):
-        episode = f'S{series.group(2)}E{series.group(3)}'
-        desc = string.capwords(series.group(4))
-        return f'{episode} - {desc}'
-    elif series.group(5):
-        episode = sort_series_episode(series.group(6))
-        desc = string.capwords(series.group(7))
-        return f'{episode} - {desc}'
-    elif series.group(9):
-        episode = sort_series_episode(series.group(9))
-        return f'{episode}'
-
-
-def sort_series_episode(series):
     season = re.compile(r's(\d?\d)', re.I).search(series).group(1).zfill(2)
     episode = re.compile(r'e(\d?\d)', re.I).search(series).group(1).zfill(2)
 
@@ -49,7 +37,7 @@ def sort_series_episode(series):
 
 
 def sort_episode(episode):
-    folder = Config('foldername').load_value
+    folder = db.get('foldername')
 
     # check for all episode numbers in files.
     ep = re.compile(r'ep(isode)?[-.(_\s]+?(\d+)', re.I)
