@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from rename.app_descriptor import ExitScript
+from rename.settings.app_descriptor import ExitScript
 import json
 
 

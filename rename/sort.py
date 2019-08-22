@@ -11,8 +11,7 @@ def get_name():
     # load name, make new name if name is None
     name = config.get('name')
     if name is None:
-        name = input(
-            f'\nEnter show name for all episodes in: {path}\n> ')
+        name = input(f'\nEnter show name for all episodes in: {path}\n> ')
         config.set('name', name)
 
     # if name is not all capital, capitalize all first letters.
