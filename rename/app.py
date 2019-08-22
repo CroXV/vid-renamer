@@ -7,7 +7,7 @@ class ExitScript:
 
     def __set__(self, instance, value):
         if value.upper() == 'Q':
-            print('Exiting Program...')
+            print('\nExiting Script...')
             sys.exit()
         instance.__dict__[self.name] = value
 
