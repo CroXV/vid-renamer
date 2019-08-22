@@ -7,17 +7,21 @@ def get_directory():
 
     if path:
         while True:
-            directory = input(f'Is your directory: {path}? (Y/N)').lower()
+            print('\nEnter (Y/N)')
+            directory = input(f'Is your directory: {path}\n> ').lower()
 
-            if directory == 'n':
-                path = set_directory()
             if directory == 'y':
+                break
+            elif directory == 'n':
+                path = set_directory()
                 break
     else:
         path = set_directory()
-        config.set('dir', path)
 
-        return path
+        config.set('dir', path)
+        config.update()
+
+    return path
 
 
 def set_directory():

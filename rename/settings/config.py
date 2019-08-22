@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 
-from rename.settings.app_descriptor import ExitScript
+from rename.settings.app_descriptor import ValueConditions
 import json
 
 
 class Config:
     # descriptor to check if exit conditions are met.
-    value = ExitScript()
+    value = ValueConditions()
 
     def __init__(self):
         self.file = 'config.json'
@@ -30,7 +30,8 @@ class Config:
     def set(self, key, value):
         # update instance value
         self.value = value
-        # set key to value in instance data
+
+        # set key value in instance data
         self.data[key] = value
 
     def get(self, key):

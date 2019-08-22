@@ -1,7 +1,11 @@
 import sys
 
 
-class ExitScript:
+class EmptyStringError(Exception):
+    pass
+
+
+class ValueConditions:
     def __get__(self, instance, owner):
         return instance.__dict__[self.name]
 
@@ -9,6 +13,8 @@ class ExitScript:
         if value.upper() == 'Q':
             print('\nExiting Script...')
             sys.exit()
+        if value == '':
+            raise EmptyStringError('Value is equal to an empty string.')
         instance.__dict__[self.name] = value
 
     def __set_name__(self, owner, name):

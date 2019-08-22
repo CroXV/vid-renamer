@@ -29,10 +29,20 @@ def sort_movie_name(movie):
 
 
 def sort_series(series):
-    season = re.compile(r's(\d?\d)', re.I).search(series).group(1).zfill(2)
-    episode = re.compile(r'e(\d?\d)', re.I).search(series).group(1).zfill(2)
+    season = re.compile(r's(\d?\d)', re.I).search(series)
+    episode = re.compile(r'e(\d?\d)', re.I).search(series)
+    no_notation = re.compile(r'(\d?\d)[-.\sx](\d?\d)').search(series)
 
-    return f'S{season}E{episode}'
+    if season and episode:
+        season = season.group(1).zfill(2)
+        episode = episode.group(1).zfill(2)
+        return f'S{season}E{episode}'
+    elif no_notation:
+        season = no_notation.group(1).zfill(2)
+        episode = no_notation.group(2).zfill(2)
+        return f'S{season}E{episode}'
+    else:
+        raise TypeError('File is not a series.')
 
 
 def sort_episode(episode):

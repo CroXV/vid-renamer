@@ -28,3 +28,5 @@ def walk_dir(directory):
 
     db.update()
     config.update()
+
+    print(db.database)
