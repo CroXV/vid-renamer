@@ -11,9 +11,9 @@ class ValueConditions:
 
     def __set__(self, instance, value):
         if value.upper() == 'Q':
-            print('\nExiting Script...')
+            print('\nClosing script...')
             sys.exit()
-        if value == '':
+        elif value == '':
             raise EmptyStringError('Value is equal to an empty string.')
         instance.__dict__[self.name] = value
 
