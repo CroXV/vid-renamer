@@ -1,6 +1,7 @@
 from rename import db
 from rename import config
 from rename.regex import regex_name
+from rename.settings.app_descriptor import EmptyStringError
 import os
 
 
@@ -10,13 +11,17 @@ def walk_dir(directory):
         # save current folder name to database
         db.set('foldername', foldername)
 
-        for file in files:
-            name = regex_name(file)
-            filename = os.path.join(foldername, file)
-            new_filename = os.path.join(foldername, name)
+        try:
+            for file in files:
+                name = regex_name(file)
+                filename = os.path.join(foldername, file)
+                new_filename = os.path.join(foldername, name)
 
-            db.add(filename, new_filename)
-        config.del_value('name')
+                db.add(filename, new_filename)
+        except (TypeError, EmptyStringError):
+            pass
+        finally:
+            config.del_value('name')
 
         for subfolder in subfolders:
             name = regex_name(subfolder)
@@ -29,4 +34,3 @@ def walk_dir(directory):
     db.update()
     config.update()
 
-    print(db.database)
