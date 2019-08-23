@@ -5,7 +5,7 @@ import json
 
 
 class Config:
-    # descriptor to check if exit conditions are met.
+    # descriptor to check if conditions are met.
     value = ValueConditions()
 
     def __init__(self):
